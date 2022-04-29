@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{> CentralCreators}}
+    {{> CentralHead}}
+    <title>Sign Up for myLIVE</title>
+  </head>
+  <body>
+    <div class="login-content">
+      <div class="login-img-wrapper">
+        {{>logoclick}}
+      </div>
+      <div class="login-lead">Hosting paid live streams has never been so easy ✨</div>
+      {{> StartButtonGroup}}
+      {{! this needs to be changed to be an alert as I pass back alerts back to client on error so msg param is in error such as invalid form}}
+      {{#if msg}}
+        <div class="login-alert-message">{{msg}}</div>
+      {{/if}}
+      {{! show SignUpForm form but specify not for Consumer}}
+      {{> SignUpForm }}
+    </div>
+    {{> footer}}
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".livecontent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView
+                android:clickable="true"
+                android:id="@+id/refreshbtn"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:text="-"
+                android:textColor="@color/colorBackgroundDef"
+                android:fontFamily="@font/kalam"
+                android:textSize="@dimen/small"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/livetitleid"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/livetitle"
+            android:textColor="@color/colorBackgroundDef"
+            android:fontFamily="@font/amaranth"
+            android:textSize="@dimen/largeHeader"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            />
+        <view class="androidx.recyclerview.widget.RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/liverecylce"
+            android:layout_marginBottom="5dp"
+            >
+        </view>
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/waitingspin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/maingreencolor"
+            android:layout_marginBottom="5dp"
+            />
+        <TextView
+            android:id="@+id/nolivelabel"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/livenores"
+            android:textColor="@color/colorBackgroundDef"
+            android:fontFamily="@font/kalam"
+            android:textSize="@dimen/medium"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            />
+        <TextView
+            android:id="@+id/errlabel"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/liveerr"
+            android:textColor="#FF0000"
+            android:fontFamily="@font/kalam"
+            android:textSize="@dimen/medium"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            />
+    </LinearLayout>
+
+
+</FrameLayout>

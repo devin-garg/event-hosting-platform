@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{#if headTitle}}
+      {{> titleog headTitle=headTitle}}
+    {{/if}}
+    {{#if headDescr}}
+      {{> CentralCreators headDescr=headDescr}}
+    {{else}}
+      {{> CentralCreators}}
+    {{/if}}
+    {{> CentralHead }}
+<title>LIVEs by {{CreatorHandle}}</title>
+
+{{> Registered }}
+{{> IsSignedIn}}
+</head>
+  <body>
+    <div class="main-content-outer">
+      <div class="main-content-logo-line">
+        {{>logoclick}}
+      </div>
+      <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        isSignedInUser(function(user){
+          if (user) {
+            document.querySelector("#LogOut").style.display = "";
+            document.querySelector("#LogOut a").href += "/p?redirect=" + encodeURIComponent(window.location.pathname)
+          } else {
+            // document.querySelector("#LogIn").style.display = "";
+            window.location.reload(true);
+          }
+        });
+
+        addShare(document.querySelector('.upcoming-link-row'));
+      });
+      </script>
+
+      <div class="main-content-white">
+        {{! logged in version}}
+        <div class="main-content-top-line" id="LogOut" style="display: none">
+          <span>Hi, {{CreatorHandle}}!</span>
+          <br>
+          {{! creator is already signed in so have option to logout that redirects to creator SignIn}}
+          <a href="/creatorLogOut" class="logout-button">Log Out</a>
+        </div>
+
+        <div class="upcoming-sharing-message">Start sharing the LIVE with your audience!</div>
+        <div class="upcoming-link-wrapper">
+          <div class="upcoming-link-row">
+            <div class="upcoming-link">{{link}}</div>
+            <button class="upcoming-link-btn" id="share">Copy link</button>
+            <div class="upcoming-link-success-msg" id="share-sucessful" style="display: none">Link copied!</div>
+            <script>
+            var copyBtn = document.querySelector("#share");
+
+            copyBtn.addEventListener('click', function() {
+              document.querySelector("#share-sucessful").style.display="flex";
+              copyBtn.style.display = "none";
+            });
+            </script>
+          </div>
+        </div>
+        {{#if zoomlink}}
+        {{#if rtcLink}}
+          {{#if phone}}
+              <div class="upcoming-link-note">
+              <span>Start the LIVE here!</span>
+            </div>
+          {{else}}
+            <div class="upcoming-link-note">
+              <span>Start the LIVE here! We encourage to drop your phone number below to receive future LIVEs reminders!</span>
+            </div>
+            {{> phoneinput liveid=liveid}}
+          {{/if}}
+        {{else}}
+          {{#if phone}}
+              <div class="upcoming-link-note">
+              <span>Your LIVE will be hosted here!</span>
+            </div>
+          {{else}}
+            <div class="upcoming-link-note">
+              <span>Your LIVE will be hosted here! We encourage to drop your phone number below to receive a reminder!</span>
+            </div>
+            {{> phoneinput liveid=liveid}}
+          {{/if}}
+        {{/if}}
+          {{#if rtcLink}}
+            {{> webrtc rtcLink=rtcLink CreatorHandle=CreatorHandle}}
+            {{else}}
+              {{>rtcwait timedate=timedate duration=duration}}
+          {{/if}}
+        {{else}}
+          {{#if phone}}
+            <div class="upcoming-link-note">
+              You will receive a Google calendar invite and can start the LIVE shortly! Make sure to check your Spam folder if you don't see the email.
+            </div>
+          {{else}}
+            <div class="upcoming-link-note">
+              You will receive a Google calendar invite and can start the LIVE shortly! Make sure to check your Spam folder if you don't see the email. We encourage you to drop your phone number to receive a reminder!
+            </div>
+            {{> phoneinput liveid=liveid}}
+          {{/if}}
+        {{/if}}
+
+        {{! The content of the currently active entry. }}
+        <div class="current-entry">
+          <div class="previous-stats">
+            {{#if price}}
+              <div>
+                <div class="previous-stats-label">Ticket Price</div>
+                <div class="previous-stats-value">${{price}}</div>
+              </div>
+            {{else}}
+            <div class="donation_based_prev">
+              * This LIVE is donation based
+            </div>
+            {{/if}}
+
+            {{#if numAttendees includeZero=true}}
+              <div>
+                <div class="previous-stats-label">Attendees</div>
+                <div class="previous-stats-value">{{numAttendees}}</div>
+              </div>
+            {{/if}}
+          </div>
+          <div style="display: none;" name="timedateview" class="previous-time-date" data-timedate="{{timedate}}" data-duration="{{duration}}"></div>
+          <div class="previous-title">{{title}}</div>
+          <div class="previous-description">{{description}}</div>
+        </div>
+        <div class="upcoming-contact-message">Contact myLIVE team for any changes to the current LIVE (edit/reschedule)</div>
+
+        {{! each data element contain the fields I specify below. the elements in this array are sorted by datetime of premiere}}
+        <div class="previous-list">Your Previous LIVEs</div>
+        {{#each data}}
+          <div class="previous-entry">
+            {{! timedate represented as ms since UNIX epoch that needs to be hidden first and then changed to be presented based in client side timezone}}
+            <div style="display: none;" name="timedateview" class="previous-time-date" data-timedate="{{timedate}}" data-duration="{{duration}}"></div>
+            {{! numAttendees will be present in most cases unless query error}}
+            <div class="previous-stats">
+              {{#if price}}
+              <div>
+                <div class="previous-stats-label">Ticket Price</div>
+                {{! price of premiere event}}
+                <div class="previous-stats-value">${{price}}</div>
+              </div>
+              {{else}}
+                <div class="donation_based_prev">
+                  *This LIVE was donation based
+                </div>
+              {{/if}}
+              {{#if numAttendees includeZero=true}}
+                <div>
+                  <div class="previous-stats-label">Attendees</div>
+                  <div class="previous-stats-value">{{numAttendees}}</div>
+                </div>
+              {{/if}}
+              {{! moneyMade for previous livestreams will be present in most cases unless query error}}
+              {{#if moneyMade includeZero=true}}
+                <div>
+                  <div class="previous-stats-label">$ Made</div>
+                  <div class="previous-stats-value">${{moneyMade}}</div>
+                </div>
+              {{/if}}
+            </div>
+            {{! title of premiere event}}
+            <div class="previous-title">{{title}}</div>
+            {{! description of premiere event}}
+            <div class="previous-description">{{description}}</div>
+          </div>
+          {{else}}
+          {{! this is entered for no premiere events in upcoming or past}}
+          <span>You have no upcoming LIVEs</span>
+        {{/each}}
+      </div>
+    </div>
+    {{> footer}}
+  </body>
+  <script src="/scripts/parseTimestamps.js"></script>
+</html>

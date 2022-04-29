@@ -1,0 +1,177 @@
+<div>
+  <div id="mediaurls">
+    {{#each mediaurls}}
+      <span media-urls="{{this}}"></span>
+    {{/each}}
+  </div>
+  <style>
+  #event-media img {
+    width: 400px;
+    max-height: 800px;
+    margin: 5px;
+    max-width: 100%;
+  }
+  #event-media{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  #place-creator-im{
+    width: 200px;
+    max-height: 500px;
+    text-align: center;
+    display: block;
+    margin: auto;
+  }
+  #place-creator-im img {
+    width: 100%;
+    height: 100%;
+  }
+  #myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 100; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)}
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The imgclose Button */
+.imgclose {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.imgclose:hover,
+.imgclose:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+
+  </style>
+  <div id="myImgModal" class="modal">
+    <span class="imgclose">&times;</span>
+    <img class="modal-content" id="img01">
+  </div>
+  <div id="event-media" class="centerThis">
+  </div>
+  <script>
+  var scriptTag = document.getElementsByTagName('script');
+  scriptTag = scriptTag[scriptTag.length - 1];
+  var parent = scriptTag.parentNode;
+  function setupClickIm(img,parent) {
+    img.id = 'myImg'
+      // Get the modal
+    var modal = parent.querySelector("#myImgModal");
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var modalImg = parent.querySelector("#img01");
+    // var captionText = parent.querySelector("#caption");
+    img.onclick = function(){
+      modal.style.display = "block";
+      modalImg.src = this.src;
+      // captionText.innerHTML = this.alt;
+    }
+
+    // Get the <span> element that imgcloses the modal
+    var span = parent.getElementsByClassName("imgclose")[0];
+
+    // When the user clicks on <span> (x), imgclose the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+  }
+  function loadInImage(url,parent) {
+    var image = new Image();
+    image.onload = function() {
+        // image exists and is loaded
+        console.log("load", image);
+        parent.querySelector("#event-media").appendChild(image);
+        setupClickIm(image,parent)
+    }
+    image.onerror = function() {
+        // image did not load
+        // uploadDefaultIm()
+        console.log("error");
+    }
+    image.src = url
+  }
+  try {
+    var mediaurls = [].map.call(parent.querySelector("#mediaurls").children, function (e) {
+      return e.getAttribute('media-urls')
+    })
+    for (var i = 0; i < mediaurls.length; i++) {
+      console.log(mediaurls[i]);
+      loadInImage(mediaurls[i], parent)
+    }
+  } catch (e) {
+
+  }
+
+
+  </script>
+</div>
