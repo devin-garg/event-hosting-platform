@@ -4,4 +4,4 @@ I solely architected and developed end to end an app to manage person to person 
 This project took many months to develop and is part of my goal to empower content creators during the pandemic to easily monetize their content and provide a platform for them to securely manage video to video live events with their audience.
 
 
-[Sample UI](UI/iOS_UI.md)
+[Sample UI](UI/iOS_UI.mp4)
